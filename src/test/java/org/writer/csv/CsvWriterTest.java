@@ -1,6 +1,7 @@
 package org.writer.csv;
 
 import net.datafaker.Faker;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.writer.model.Months;
 import org.writer.model.Person;
@@ -66,5 +67,29 @@ public class CsvWriterTest {
         assertTrue(file.length() > 0);
 
         file.delete();
+    }
+
+    @Test
+    public void testEmptyDataDoesNotCreateFile() throws IOException {
+        List<Person> emptyList = new ArrayList<>();
+        String filePath = "empty_test.csv";
+
+        new CsvWriter().writeToFile(emptyList, filePath);
+        File file = new File(filePath);
+
+        Assertions.assertFalse(file.exists());
+    }
+
+    @Test
+    public void testInvalidFileNameThrowsException() {
+        List<Person> people = List.of(
+                new Person("Ivan", "Ivanov", 1, Months.JANUARY, 1990)
+        );
+
+        String invalidPath = "invalid:/test.csv";
+
+        Assertions.assertThrows(IOException.class, () -> {
+            new CsvWriter().writeToFile(people, invalidPath);
+        });
     }
 }
