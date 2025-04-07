@@ -40,7 +40,7 @@ public class Main {
         }
 
         CsvWriter writer = new CsvWriter();
-        writer.writeToFile(students, "student.csv");
-        writer.writeToFile(people, "people.csv");
+        writer.writeToFile(students, "output/student.csv");
+        writer.writeToFile(people, "output/people.csv");
     }
 }
